@@ -1,0 +1,26 @@
+name: Python Bot
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"  # هر 15 دقیقه اجرا میشه که نخوابه
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run bot
+      run: python main.py
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        APP_URL: ${{ secrets.APP_URL }}
